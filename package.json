@@ -1,17 +1,40 @@
 {
-    "buildNpmdoc":"stream-splicer",
+    "author": "kai zhu <kaizhu256@gmail.com>",
+    "buildNpmdoc": "stream-splicer",
+    "description": "api documentation for [stream-splicer (v2.0.0)](https://github.com/substack/stream-splicer) [![npm package](https://img.shields.io/npm/v/npmdoc-stream-splicer.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-stream-splicer) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-stream-splicer.svg)](https://travis-ci.org/npmdoc/node-npmdoc-stream-splicer)",
     "devDependencies": {
-        "stream-splicer": "*",
         "electron-lite": "kaizhu256/node-electron-lite#alpha",
+        "stream-splicer": "*",
         "utility2": "kaizhu256/node-utility2#alpha"
     },
-    "name":"npmdoc-stream-splicer",
+    "engines": {
+        "node": ">=4.0"
+    },
+    "homepage": "https://github.com/npmdoc/node-npmdoc-stream-splicer",
+    "keywords": [
+        "documentation",
+        "stream-splicer"
+    ],
+    "license": "MIT",
+    "main": "lib.npmdoc_stream_splicer.js",
+    "name": "npmdoc-stream-splicer",
+    "nameAlias": "npmdoc_stream_splicer",
+    "nameOriginal": "npmdoc-stream-splicer",
+    "os": [
+        "darwin",
+        "linux"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/npmdoc/node-npmdoc-stream-splicer"
     },
     "scripts": {
-        "build-ci": "utility2 shReadmeTest build_ci.sh"
+        "build-ci": "utility2 shReadmeTest build_ci.sh",
+        "env": "env",
+        "heroku-postbuild": "(set -e; npm install \"kaizhu256/node-utility2#alpha\"; utility2 shDeployHeroku)",
+        "postinstall": "if [ -f npm_scripts.sh ]; then ./npm_scripts.sh postinstall; fi",
+        "start": "(set -e; export PORT=${PORT:-8080}; utility2 start test.js)",
+        "test": "(set -e; export PORT=$(utility2 shServerPortRandom); utility2 test test.js)"
     },
     "version": "0.0.1"
 }
