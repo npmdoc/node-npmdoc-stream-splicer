@@ -63,6 +63,15 @@
 
         <li>
 
+            <a class="apidocElementLiA" href="#apidoc.element.stream-splicer.stream-splicer">
+            function <span class="apidocSignatureSpan"></span>stream-splicer
+            <span class="apidocSignatureSpan">(streams, opts)</span>
+            </a>
+
+        </li>
+
+        <li>
+
             <a class="apidocElementLiA" href="#apidoc.element.stream-splicer.obj">
             function <span class="apidocSignatureSpan">stream-splicer.</span>obj
             <span class="apidocSignatureSpan">(streams, opts)</span>
@@ -533,6 +542,40 @@
 
 <div class="apidocSectionDiv">
 <h1><a href="#apidoc.module.stream-splicer" id="apidoc.module.stream-splicer">module stream-splicer</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.stream-splicer.stream-splicer" id="apidoc.element.stream-splicer.stream-splicer">
+        function <span class="apidocSignatureSpan"></span>stream-splicer
+        <span class="apidocSignatureSpan">(streams, opts)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Pipeline(streams, opts) {
+    if (!(this instanceof Pipeline)) return new Pipeline(streams, opts);
+    if (!opts &#x26;&#x26; !Array.isArray(streams)) {
+        opts = streams;
+        streams = [];
+    }
+    if (!streams) streams = [];
+    if (!opts) opts = {};
+    Duplex.call(this, opts);
+
+    var self = this;
+    this._options = opts;
+    this._wrapOptions = { objectMode: opts.objectMode !== false };
+    this._streams = [];
+
+    this.splice.apply(this, [ 0, 0 ].concat(streams));
+
+    this.once(&#x27;finish&#x27;, function () {
+        self._notEmpty();
+        self._streams[0].end();
+    });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
 
 
     <h2>
@@ -2210,10 +2253,9 @@ Shift a stream from the begining of the pipeline.
   }
 
   // proxy certain important events.
-  var events = [&#x27;error&#x27;, &#x27;close&#x27;, &#x27;destroy&#x27;, &#x27;pause&#x27;, &#x27;resume&#x27;];
-  forEach(events, function (ev) {
-    stream.on(ev, self.emit.bind(self, ev));
-  });
+  for (var n = 0; n &#x3c; kProxyEvents.length; n++) {
+    stream.on(kProxyEvents[n], self.emit.bind(self, kProxyEvents[n]));
+  }
 
   // when we try to consume some more bytes, simply unpause the
   // underlying stream.
